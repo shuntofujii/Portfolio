@@ -248,7 +248,7 @@ Actions タブで **Deploy site** ワークフローが成功することを確�
 ```env
 GITHUB_TOKEN=ghp_xxxxxxxx
 GITHUB_OWNER=shuntofujii
-GITHUB_REPO=260101_Portfolio
+GITHUB_REPO=Portfolio
 GITHUB_BRANCH=main
 ```
 

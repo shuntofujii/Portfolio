@@ -24,7 +24,7 @@
 ## 📁 ファイル構成（実装者向け）
 
 ```
-/260101_Portfolio/
+/Portfolio/
 ├── index.html / {pageSlug}/ / profile/ / 404.html
 ├── styles.css / projects.json / site.webmanifest
 ├── sitemap.xml / robots.txt / CNAME
