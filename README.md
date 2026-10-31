@@ -18,6 +18,7 @@
 - データ仕様を確認: `📦 アセットルール`
 - **画像・動画アップロード（R2）**: [`docs/R2_UPLOAD_SETUP.md`](docs/R2_UPLOAD_SETUP.md)
 - **www → 非 www リダイレクト**: [`docs/WWW_REDIRECT_SETUP.md`](docs/WWW_REDIRECT_SETUP.md)
+- **二系統リポジトリ（非公開の開発用 / 公開の本番用）**: [`docs/dual-repo.md`](docs/dual-repo.md)
 - UIルールを確認: `🎨 カスタマイズ`
 - SEO運用を確認: `🔁 デプロイ・データ更新時の推奨手順`
 
