@@ -7,7 +7,7 @@
 | 段階 | 内容 | 状態 |
 | --- | --- | --- |
 | phase 1 | この文書の追加と `.gitignore` への `.env.*` の追加、公開ひな形を `env.example` にリネーム | 実施済み |
-| phase 2 | 非公開リポジトリの作成、remote の改名、非公開側への初回 push、`projects.json` の更新、Worker の移行 | リポ作成・remote・初回 push まで実施済み。台帳と Worker は進行中／別節 |
+| phase 2 | 非公開リポジトリの作成、remote の改名、非公開側への初回 push、`projects.json` の更新、Worker の移行 | 実施済み |
 | phase 3 | 公開 main への release の push | **未実施。別依頼での承認が要る** |
 
 - phase の各作業は、この文書があるだけでは始めない。依頼ごとに承認を得てから行う。
@@ -23,7 +23,11 @@
   - 公開済みの履歴 `refs/remotes/public/main`（`a271ab08415d39662ccf0d4c4b43b1957b751972`）を非公開の `main` へ。ローカルの `main` は送っていない。
 - 公開リポジトリの main は変えていない（`a271ab0` のまま）。公開 main への release は未実施。
 - 本体 `~/work/Portfolio` の WIP は未コミットのまま触っていない。
-- 旧 Worker の停止と `work-worker@Portfolio-m1` への移行は、この節の時点ではまだ書いていない（後続で更新）。
+- `~/work/_base/config/projects.json` の Portfolio の `repo` は `shuntofujii/Portfolio-dev` に変更済み（`mobile_workspaces` は `["m1"]`）。
+- スマホ用作業領域 `~/work/_workspaces/Portfolio/m1` は、非公開の `origin/main`（`a271ab0`）から作った。
+- 旧 Worker `cursor-worker@Portfolio`（本体 `~/work/Portfolio` を追跡）は `systemctl --user disable --now` で停止・無効化した。データ `~/.local/share/cursor-agent/workers/Portfolio` は残している。
+- Worker の追跡先は `work-worker@Portfolio-m1`（Worker 名 `win-Portfolio`、作業ディレクトリ `~/work/_workspaces/Portfolio/m1`）。`work-worker enable Portfolio m1` で有効化し、起動を確認した。
+
 ## リポジトリ
 
 | 役割 | リポジトリ | 公開範囲 |
@@ -58,8 +62,8 @@
 
 - 日常の PR、`work-branch`、Worker（My Machines）の追跡先は **`origin`（非公開）**。
 - `work-branch` は `origin/main` を取得して作業ブランチを切る。remote の切り替え後は、非公開の main が起点になる。
-- `~/work/_base/config/projects.json` の Portfolio の `repo` を `shuntofujii/Portfolio-dev` に変えるのは **別依頼**（`_base` への書き込みのため）。
-- その変更が終わるまで、**新しい m1（スマホ用作業領域）は作らない**。
+- `~/work/_base/config/projects.json` の Portfolio の `repo` は `shuntofujii/Portfolio-dev`（変更済み）。
+- Worker（My Machines）は `work-worker@Portfolio-m1` で、m1 は非公開の `origin/main` から作る。
 
 ## 本番への反映
 
@@ -87,6 +91,6 @@
 
 ## 対象外
 
-- 旧 Worker `cursor-worker@Portfolio` は止めない・変えない。新しい依頼をそこに出さない。
-- `AGENTS.md`、ポートの台帳（`ports`）、`work-dev`、m1 は、この依頼に含めない。
+- 旧 Worker `cursor-worker@Portfolio` は停止・無効化済み。再び有効にしない。`cursor-worker.sh`、`cursor-worker@.service`、旧 Worker のデータは変えない・消さない。
+- `AGENTS.md`、ポートの台帳（`ports`）、`work-dev` は、この依頼に含めない。
 - `package.json` の `repository` の URL と `.github/workflows/deploy.yml` は変えない。
