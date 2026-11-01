@@ -6,12 +6,24 @@
 
 | 段階 | 内容 | 状態 |
 | --- | --- | --- |
-| phase 1 | この文書の追加と `.gitignore` への `.env.*` の追加 | この依頼で実施 |
-| phase 2 | 非公開リポジトリの作成、remote の改名、`projects.json` の `repo` の変更、Worker の移行、公開 main への release の push | **未実施。別依頼での承認が要る** |
+| phase 1 | この文書の追加と `.gitignore` への `.env.*` の追加、公開ひな形を `env.example` にリネーム | 実施済み |
+| phase 2 | 非公開リポジトリの作成、remote の改名、非公開側への初回 push、`projects.json` の更新、Worker の移行 | リポ作成・remote・初回 push まで実施済み。台帳と Worker は進行中／別節 |
+| phase 3 | 公開 main への release の push | **未実施。別依頼での承認が要る** |
 
-- **phase 1 では `git remote` を実行しない**（`add` / `rename` / `set-url` / `remove` のいずれも）。phase 1 の時点では `origin` は公開リポジトリ `https://github.com/shuntofujii/Portfolio.git` のまま。
-- phase 2 の各作業は、この文書があるだけでは始めない。依頼ごとに承認を得てから行う。
+- phase の各作業は、この文書があるだけでは始めない。依頼ごとに承認を得てから行う。
 
+## 現状（2026-11-01）
+
+- 非公開リポジトリ `shuntofujii/Portfolio-dev` は、エージェントが `gh repo create --private`（`--source` / `--push` なし）で作成した。
+- remote は切り替え済み（共有の git 設定のため、本体と worktree で同じ）。
+  - `origin`：`https://github.com/shuntofujii/Portfolio-dev.git`（非公開）
+  - `public`：`https://github.com/shuntofujii/Portfolio.git`（公開）
+- 非公開側へ送った ref（`workflow` 権限追加のあと成功）：
+  - 作業ブランチ `agent/20261031-dual-repo-design`（`102abce`）
+  - 公開済みの履歴 `refs/remotes/public/main`（`a271ab08415d39662ccf0d4c4b43b1957b751972`）を非公開の `main` へ。ローカルの `main` は送っていない。
+- 公開リポジトリの main は変えていない（`a271ab0` のまま）。公開 main への release は未実施。
+- 本体 `~/work/Portfolio` の WIP は未コミットのまま触っていない。
+- 旧 Worker の停止と `work-worker@Portfolio-m1` への移行は、この節の時点ではまだ書いていない（後続で更新）。
 ## リポジトリ
 
 | 役割 | リポジトリ | 公開範囲 |
@@ -21,7 +33,7 @@
 
 ### 非公開リポジトリ `shuntofujii/Portfolio-dev` の作り方（phase 2）
 
-作り方の型は `~/work/_base/docs/github-private-repo.md` に合わせる。作成はユーザーが行う。
+作り方の型は `~/work/_base/docs/github-private-repo.md` に合わせる。今回はエージェントが下の決まりで作成した（作成済み）。
 
 - **空のリポジトリ**にする。「Add a README file」「Add .gitignore」「Choose a license」は **すべて付けない**（ローカルの履歴をそのまま push するため）。
 - **Visibility は Private**。
