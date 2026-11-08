@@ -134,7 +134,7 @@ https://dash.cloudflare.com/5e43a7ccc0fff081fab0e695b875ea2c/r2/api-tokens
 リポジトリルートで:
 
 ```bash
-cp .env.example .env
+cp env.example .env
 ```
 
 `.env` を編集:
@@ -420,7 +420,7 @@ curl -I "https://assets.shuntofujii.com/izumo/strategy2024_p_1.webp"
 | `scripts/lib/r2-upload.mjs` | R2 へのアップロード |
 | `scripts/lib/convert-media.mjs` | WebP / WebM 変換 |
 | `scripts/lib/update-projects-json.mjs` | projects.json 更新 |
-| `.env.example` | 環境変数テンプレート |
+| `env.example` | 環境変数テンプレート |
 | `.github/workflows/deploy.yml` | GitHub Pages 自動デプロイ |
 | `constants.js` | `baseAssetsUrl`, `ASSETS_CACHE_V` |
 | `README.md` | アセットルール・命名規則 |

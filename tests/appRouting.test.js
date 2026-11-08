@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { loadGa4Script } from '../analytics.js';
 import {
   normalizePathname,
   getPathnameProjectSlug,
@@ -95,6 +96,46 @@ describe('appRouting.js', () => {
 
     restoreBaseHistoryOnProfileModalClose('Base Title');
     expect(replaceSpy).toHaveBeenCalledWith(null, 'Base Title', '/');
+  });
+
+  it('pushState でパスが変わると G-FD7TYG4S7P へ page_view を送る', () => {
+    loadGa4Script();
+    history.replaceState(null, '', '/');
+    const gtag = vi.fn();
+    window.gtag = gtag;
+
+    applyModalHistoryForProject({ pageSlug: 'ejic' });
+
+    expect(gtag).toHaveBeenCalledWith(
+      'event',
+      'page_view',
+      expect.objectContaining({
+        send_to: 'G-FD7TYG4S7P',
+        page_path: '/ejic/'
+      })
+    );
+
+    gtag.mockClear();
+    applyModalHistoryForProject({ pageSlug: 'ejic' });
+    expect(gtag).not.toHaveBeenCalled();
+  });
+
+  it('replaceState でパスが変わると G-FD7TYG4S7P へ page_view を送る', () => {
+    loadGa4Script();
+    history.replaceState(null, '', '/profile/');
+    const gtag = vi.fn();
+    window.gtag = gtag;
+
+    restoreBaseHistoryOnProfileModalClose('Base Title');
+
+    expect(gtag).toHaveBeenCalledWith(
+      'event',
+      'page_view',
+      expect.objectContaining({
+        send_to: 'G-FD7TYG4S7P',
+        page_path: '/'
+      })
+    );
   });
 
   it('applyModalDocumentMeta / restoreBaseDocumentMeta は title と description を更新する', () => {

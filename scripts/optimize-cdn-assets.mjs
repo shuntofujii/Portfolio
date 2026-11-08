@@ -100,7 +100,7 @@ function bumpAssetsCacheVersion() {
   /** @param {string} dir */
   function walk(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (entry.name.startsWith('.') && entry.name !== '.env.example') continue;
+      if (entry.name.startsWith('.')) continue;
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {
         if (skipDirs.has(entry.name)) continue;

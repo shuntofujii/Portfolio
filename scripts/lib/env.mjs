@@ -33,7 +33,7 @@ export function loadEnvFile(envPath = path.join(repoRoot, '.env')) {
 export function requireEnv(keys, env = { ...process.env, ...loadEnvFile() }) {
   const missing = keys.filter((key) => !env[key]);
   if (missing.length > 0) {
-    throw new Error(`環境変数が不足しています: ${missing.join(', ')}\n.env.example を参照してください。`);
+    throw new Error(`環境変数が不足しています: ${missing.join(', ')}\nenv.example を参照してください。`);
   }
   return env;
 }

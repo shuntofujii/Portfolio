@@ -4,6 +4,7 @@ import {
   parseProfileModalFromPath,
   parseProjectSlugFromPath
 } from './routing.js';
+import { trackPageView } from './analytics.js';
 
 export function normalizePathname(pathname) {
   if (!pathname || pathname === '/') return pathname;
@@ -99,3 +100,39 @@ export function restoreBaseDocumentMeta(basePageTitle, baseMetaDescription, meta
     metaDescriptionEl.setAttribute('content', baseMetaDescription);
   }
 }
+
+/**
+ * pushState / replaceState でパスが変わったとき、測定ID G-FD7TYG4S7P へ page_view を送る。
+ * 戻る・進む（popstate）でも同じ測定IDへ送る。
+ */
+let historyPageViewInstalled = false;
+
+function installHistoryPageViews() {
+  if (historyPageViewInstalled || typeof history === 'undefined' || typeof window === 'undefined') return;
+  historyPageViewInstalled = true;
+
+  let lastPath = normalizePathname(window.location.pathname);
+  const nativePush = history.pushState.bind(history);
+  const nativeReplace = history.replaceState.bind(history);
+
+  function trackIfPathChanged() {
+    const next = normalizePathname(window.location.pathname);
+    if (next === lastPath) return;
+    lastPath = next;
+    trackPageView();
+  }
+
+  history.pushState = function (state, title, url) {
+    nativePush(state, title, url);
+    trackIfPathChanged();
+  };
+
+  history.replaceState = function (state, title, url) {
+    nativeReplace(state, title, url);
+    trackIfPathChanged();
+  };
+
+  window.addEventListener('popstate', trackIfPathChanged);
+}
+
+installHistoryPageViews();
